@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 GPT_data="./Web_data/"
 GPT_index_URL=GPT_data+"allGPTs_index/"
-
+if not os.path.exists(GPT_index_URL):
+    os.makedirs(GPT_index_URL)
 URL="https://gptstore.ai/"
 GPTS_NUM_PERPAGE=15
 gpt_num_url='//div[@id="__next"]/main/div[1]/div/p'

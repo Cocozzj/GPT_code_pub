@@ -10,7 +10,9 @@ from bs4 import BeautifulSoup
 GPTStore_utl="https://gptstore.ai"
 GPT_data="./Web_data/"
 GPT_info_URL=GPT_data+"GPTs_info/"
-GPT_info_csv=GPT_data+"gpt_info_index.csv"
+if not os.path.exists(GPT_info_URL):
+    os.makedirs(GPT_info_URL)
+GPT_info_csv=GPT_data+"allGPTs_index.csv"
 tmp=[5000,10000]
 def get_gpt_info(sb,row):
     source_code = sb.get_page_source()
@@ -43,6 +45,7 @@ def passCloudFlare(row):
                 raise Exception("Detected!")
 
 df = pd.read_csv (GPT_info_csv)
-df = df.iloc[tmp[0],tmp[1]]
+
+df = df.iloc[tmp[0]:tmp[1]]
 for row in df.itertuples(name=None):
     passCloudFlare(row)
