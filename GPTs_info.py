@@ -6,7 +6,7 @@ import os
 from bs4 import BeautifulSoup 
 from selenium.common import exceptions
 
-tmp=[27108,27500]
+tmp=[25000,25017]
 GPTStore_utl="https://gptstore.ai"
 GPT_data="./Web_data/"
 GPT_info_URL=GPT_data+"GPTs_info/"
