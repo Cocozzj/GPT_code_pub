@@ -67,7 +67,7 @@ def passCloudFlare(row):
         try:
             checkCloudFlare(sb)
         except Exception:
-            checkCloudFlare(sb)
+            passCloudFlare(sb)
 
 df = pd.read_csv (GPT_info_csv)
 

@@ -21,6 +21,7 @@ winget install --id SublimeHQ.SublimeText.4
 winget install --id Git.Git -e --source winget
 winget install --id Python.Python.3.8 -l C:\Python3.8
 
+
 ###########start new powershell########
 
 python -m pip install --upgrade pip
