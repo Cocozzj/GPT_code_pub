@@ -87,13 +87,13 @@ def passCloudFlare(row):
         # except exceptions:
         #     sb.refresh()
         except exceptions.NoSuchElementException:
-            sb.refresh()
+            passCloudFlare(row)
         except exceptions.NoSuchFrameException:
-            sb.refresh()
+            passCloudFlare(row)
         except exceptions.NoSuchWindowException:
-            sb.refresh()
+            passCloudFlare(row)
         except Exception:
-            sb.refresh()
+            passCloudFlare(row)
         
 
 df = pd.read_csv (GPT_info_csv)
