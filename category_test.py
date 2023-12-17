@@ -76,12 +76,6 @@ def get_category_page(sb,key):
               
 
 ####################### Get GPTs Category List #########################
-with SB(uc_cdp=True, guest_mode=True) as sb:
-    sb.open(URL+element[0])
-    try:
-        sb.click("")
-    except Exception:
-        sb.refresh()
 category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
 category_button.click()
 category_list1=[]

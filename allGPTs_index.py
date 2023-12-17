@@ -5,15 +5,20 @@ import math
 from seleniumbase import SB
 from bs4 import BeautifulSoup 
 import pandas as pd
-GPT_data="./Web_data/"
-GPT_index_URL=GPT_data+"allGPTs_index/"
-if not os.path.exists(GPT_index_URL):
-    os.makedirs(GPT_index_URL)
 URL="https://gptstore.ai/"
 GPTS_NUM_PERPAGE=15
-gpt_num_url='//div[@id="__next"]/main/div[1]/div/p'
 
+dataFolder="./Web_data/"
+GPT_index_URL=dataFolder+"allGPTs_index/"
+
+gpt_num_url='//div[@id="__next"]/main/div[1]/div/p'
+category_index_URL=dataFolder+"category_index/"
+category_url='//div[@id="__next"]/main/div[2]/div[1]/div/div'
 element=["gpts","creators","plugins"]
+if not os.path.exists(GPT_index_URL):
+    os.makedirs(GPT_index_URL)
+
+
 
 options = webdriver.ChromeOptions()
 options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
@@ -22,6 +27,27 @@ options.add_experimental_option('useAutomationExtension', False)
 options.add_argument('--save-page-as-mhtml')
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(options=options)
+
+####################### Get GPTs Category List #########################
+driver.get(URL+element[0])
+category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
+category_button.click()
+category_list1=[]
+category_list2=[]
+category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
+for i in category_default:
+    category_list1.append([i.text,i.get_attribute('href')])
+category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
+for i in category_extend:
+    category_list2.append([i.text,i.get_attribute('href')])
+category_list=category_list1+category_list2
+
+print(category_list)
+
+gpt_info=pd.DataFrame(category_list,columns =['name', 'url'])
+
+data2csv(gpt_info,dataFolder+"category_index.csv") 
+
 
 ####################### Get Total Num of GPTs #########################
 

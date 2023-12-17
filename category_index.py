@@ -73,35 +73,8 @@ def get_category_page(sb,key):
     for page_id in range(1, page_num+1):
         passCloudFlare(link+"?page="+str(page_id),save_path,page_id)
 
-              
-options = webdriver.ChromeOptions()
-options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
-options.add_experimental_option("excludeSwitches", ["enable-automation"])
-options.add_experimental_option('useAutomationExtension', False)
-options.add_argument('--disable-blink-features=AutomationControlled')
-driver = webdriver.Chrome(options=options)
 
 
-####################### Get GPTs Category List #########################
-driver.get(URL+element[0])
-
-category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
-category_button.click()
-category_list1=[]
-category_list2=[]
-category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
-for i in category_default:
-    category_list1.append([i.text,i.get_attribute('href')])
-category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
-for i in category_extend:
-    category_list2.append([i.text,i.get_attribute('href')])
-category_list=category_list1+category_list2
-
-print(category_list)
-
-gpt_info=pd.DataFrame(category_list,columns =['name', 'url'])
-
-data2csv(gpt_info,GPT_data+"category_index.csv") 
 
 ####################### Get GPTs index in category#########################
 for key, link in category_list:
