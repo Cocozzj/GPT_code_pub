@@ -1,20 +1,10 @@
 import time
-import math
 from seleniumbase import SB
-import pandas as pd
-import os
+from utils.path_utils import *
 from bs4 import BeautifulSoup 
 from selenium.common import exceptions
 
-tmp=[25000,25017]
-GPTStore_utl="https://gptstore.ai"
-GPT_data="./Web_data/"
-GPT_info_URL=GPT_data+"GPTs_info/"
-if not os.path.exists(GPT_info_URL):
-    os.makedirs(GPT_info_URL)
-GPT_info_csv=GPT_data+"allGPTs_index.csv"
-
-def checkCloudFlare(sb):
+def checkCloudFlare(row,sb):
     source_code = sb.get_page_source()
     bs = BeautifulSoup(source_code,"html.parser")  
     title=bs.title.get_text()
@@ -27,6 +17,8 @@ def checkCloudFlare(sb):
             except exceptions.NoSuchFrameException:
                 passCloudFlare(row)
             except exceptions.NoSuchWindowException:
+                passCloudFlare(row)
+            except exceptions:
                 passCloudFlare(row)
             except Exception:
                 passCloudFlare(row)
@@ -41,6 +33,8 @@ def checkCloudFlare(sb):
                 passCloudFlare(row)
             except exceptions.NoSuchWindowException:
                 passCloudFlare(row)
+            except exceptions:
+                passCloudFlare(row)
             except Exception:
                 passCloudFlare(row)
         else:
@@ -54,6 +48,8 @@ def checkCloudFlare(sb):
             passCloudFlare(row)
         except exceptions.NoSuchWindowException:
             passCloudFlare(row)
+        except exceptions:
+            passCloudFlare(row)
         except Exception:
             passCloudFlare(row)
     else:
@@ -61,43 +57,61 @@ def checkCloudFlare(sb):
     
 def get_gpt_info(sb,row):
     source_code = sb.get_page_source()
-    bs = BeautifulSoup(source_code,"html.parser")  
-    title=bs.title.get_text()
-    if "Just a moment" in title:
-        passCloudFlare(row)
+    bs = BeautifulSoup(source_code,"html.parser")
+    title=bs.title
+    if title is None:
+        with open(os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2].split("/")[-1] + ".html"), mode='w', encoding='utf-8') as html_file:
+            html_file.write("No page found")  
+        print(row[0])
     else:
-        try:
-            print(row[0])
-            with open(GPT_info_URL+str(row[0])+"_"+row[2].split("/")[-1] + ".html", mode='w', encoding='utf-8') as html_file:
-                html_file.write(source_code)
-        except exceptions.NoSuchElementException:
+        title=title.get_text()
+        if "Just a moment" in title:
             passCloudFlare(row)
-        except exceptions.NoSuchFrameException:
-            passCloudFlare(row)
-        except exceptions.NoSuchWindowException:
-            passCloudFlare(row)
-        except Exception:
-            passCloudFlare(row)
+        else:
+            try:
+                with open(os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2].split("/")[-1] + ".html"), mode='w', encoding='utf-8') as html_file:
+                    html_file.write(source_code)
+                print(row[0])
+            except exceptions.NoSuchElementException:
+                passCloudFlare(row)
+            except exceptions.NoSuchFrameException:
+                passCloudFlare(row)
+            except exceptions.NoSuchWindowException:
+                passCloudFlare(row)
+            except exceptions:
+                passCloudFlare(row)
+            except Exception:
+                passCloudFlare(row)
 
 def passCloudFlare(row):
     with SB(uc_cdp=True, guest_mode=True) as sb:
-        sb.open(GPTStore_utl+row[2])
+        sb.open(GPTSTORE_URL+row[2])
         try:
-            checkCloudFlare(sb)
-        # except exceptions:
-        #     sb.refresh()
+            checkCloudFlare(row,sb)
         except exceptions.NoSuchElementException:
             passCloudFlare(row)
         except exceptions.NoSuchFrameException:
             passCloudFlare(row)
         except exceptions.NoSuchWindowException:
             passCloudFlare(row)
+        except exceptions:
+            passCloudFlare(row)
         except Exception:
             passCloudFlare(row)
-        
 
-df = pd.read_csv (GPT_info_csv)
+if __name__ == "__main__":
 
-df = df.iloc[tmp[0]:tmp[1]]
-for row in df.itertuples(name=None):
-    passCloudFlare(row)
+    GPT_info_csv=os.path.join(DATA_DIR, 'allGPTs_index.csv')
+    df = pd.read_csv (GPT_info_csv)
+    sys_argv_length=len(sys.argv)
+    if sys_argv_length==2:
+        df = df.iloc[int(sys.argv[1]):]
+        for row in df.itertuples(name=None):
+            passCloudFlare(row)
+    elif sys_argv_length==3:
+        df = df.iloc[int(sys.argv[1]):int(sys.argv[2])]
+
+        for row in df.itertuples(name=None):
+            passCloudFlare(row)
+    else: 
+        print("Please input <= 2 numbers")
