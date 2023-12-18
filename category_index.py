@@ -1,14 +1,5 @@
-from selenium.webdriver.common.by import By
-from selenium.common import exceptions
-import time
-import math
-from seleniumbase import SB
-import os
-import pandas as pd
-from bs4 import BeautifulSoup 
 from utils.function_utils import *
 from utils.path_utils import *
-
 
 def get_page_num(sb,key):
     print("############## "+key+" ##############")

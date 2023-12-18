@@ -1,10 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import os
-import math
-from seleniumbase import SB
-from bs4 import BeautifulSoup 
-import pandas as pd
 from utils.path_utils import *
 from utils.function_utils import *
 

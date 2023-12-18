@@ -1,8 +1,5 @@
-import time
-from seleniumbase import SB
+from utils.function_utils import *
 from utils.path_utils import *
-from bs4 import BeautifulSoup 
-from selenium.common import exceptions
 
 def checkCloudFlare(row,sb):
     source_code = sb.get_page_source()
