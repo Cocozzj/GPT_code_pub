@@ -9,7 +9,7 @@ def checkCloudFlare(row,sb):
         if sb.is_element_visible('input[value*="Verify"]'):
             try:
                 sb.click('input[value*="Verify"]')
-                time.sleep(1)
+                time.sleep(3)
             except exceptions.NoSuchElementException:
                 passCloudFlare(row)
             except exceptions.NoSuchFrameException:
@@ -24,7 +24,7 @@ def checkCloudFlare(row,sb):
             try:
                 sb.switch_to_frame('iframe[title*="challenge"]')
                 sb.click("span.mark")
-                time.sleep(1)  
+                time.sleep(3)  
             except exceptions.NoSuchElementException:
                 passCloudFlare(row)
             except exceptions.NoSuchFrameException:
@@ -82,7 +82,7 @@ def get_gpt_info(sb,row):
                 passCloudFlare(row)
 
 def passCloudFlare(row):
-    with SB(uc_cdp=True, guest_mode=True) as sb:
+    with SB(uc_cdp=True, guest_mode=True,locale_code="en_us") as sb:
         sb.open(GPTSTORE_URL+row[2])
         try:
             checkCloudFlare(row,sb)
