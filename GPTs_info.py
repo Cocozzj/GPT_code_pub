@@ -5,7 +5,7 @@ def checkCloudFlare(row,sb):
     source_code = sb.get_page_source()
     bs = BeautifulSoup(source_code,"html.parser")  
     title=bs.title.get_text()
-    if "Just a moment" in title:
+    if "Just a moment" in title or "请稍后" in title:
         if sb.is_element_visible('input[value*="Verify"]'):
             try:
                 sb.click('input[value*="Verify"]')
@@ -63,7 +63,7 @@ def get_gpt_info(sb,row):
         print(row[0])
     else:
         title=title.get_text()
-        if "Just a moment" in title:
+        if "Just a moment" in title or "请稍后" in title:
             passCloudFlare(row)
         else:
             try:
@@ -82,7 +82,7 @@ def get_gpt_info(sb,row):
                 passCloudFlare(row)
 
 def passCloudFlare(row):
-    with SB(uc_cdp=True, guest_mode=True,locale_code="en_us") as sb:
+    with SB(uc_cdp=True, guest_mode=False,locale_code="en_us") as sb:
         sb.open(GPTSTORE_URL+row[2])
         try:
             checkCloudFlare(row,sb)
