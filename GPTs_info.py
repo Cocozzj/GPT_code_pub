@@ -9,6 +9,7 @@ def checkCloudFlare(row,sb):
         if sb.is_element_visible('input[value*="Verify"]'):
             try:
                 sb.click('input[value*="Verify"]')
+                time.sleep(1)
             except exceptions.NoSuchElementException:
                 passCloudFlare(row)
             except exceptions.NoSuchFrameException:

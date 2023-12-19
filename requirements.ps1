@@ -38,3 +38,8 @@ git clone https://github.com/Cocozzj/GPT_code_pub.git
 cd ./GPT_code_pub
 
 
+###########upload file########
+
+### under GPT_code_pub folder
+
+scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/data_collection/GPTs_info/

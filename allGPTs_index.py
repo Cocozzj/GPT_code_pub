@@ -9,7 +9,6 @@ category_url='//div[@id="__next"]/main/div[2]/div[1]/div/div'
 element=["gpts","creators","plugins"]
 
 GPTs_url=GPTSTORE_URL+element[0]
-print(GPTs_url)
 # options = webdriver.ChromeOptions()
 # options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36")
 # options.add_experimental_option("excludeSwitches", ["enable-automation"])
