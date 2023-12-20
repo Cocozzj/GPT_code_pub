@@ -49,7 +49,7 @@ page_num = math.ceil(gpts_num/GPTS_NUM_PERPAGE)
 print("Total # GPTs: "+ str(gpts_num))
 print("Total # GPTs page: "+str(page_num))
 
-####################### Get All GPTs info#########################
+# ####################### Get All GPTs info#########################
 
 gpt_index=[]
 for page_id in range(1, page_num+1):
@@ -59,9 +59,8 @@ for page_id in range(1, page_num+1):
     save_path=os.path.join(GPTS_INDEX_DIR, str(page_id)+ ".html")
     with open(save_path, mode='w', encoding='utf-8') as html_file:
         html_file.write(source_code)
+
 ####################### summary All GPTs name+url#########################
-
-
 
 file_num= len(os.listdir(GPTS_INDEX_DIR))
 gpt_info=[]
