@@ -45,7 +45,7 @@ def get_gpt_info(sb,url,save_path,index):
             
 
 def passCloudFlare(url,save_path,index):
-    with SB(uc_cdp=True, guest_mode=True, locale_code="en_us") as sb:
+    with SB(uc_cdp=True, guest_mode=True, locale_code="en_us",headless=True) as sb:
         sb.open(url)
         try:
             checkCloudFlare(sb,url,save_path,index)
