@@ -8,7 +8,6 @@ from utils.function_utils import *
 def data2csv(pddata,filename,index=False,col=True):
     pddata.to_csv(filename, sep=',', index=index,header=col)
 
-
 def checkCloudFlare(sb,url,save_path,index):
     source_code = sb.get_page_source()
     bs = BeautifulSoup(source_code,"html.parser")  
@@ -43,6 +42,7 @@ def get_gpt_info(sb,url,save_path,index):
             if sb.is_element_visible('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button'):
                 sb.click('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button')
                 print("Request update")
+                time.sleep(1)
         else: 
             passCloudFlare(url,save_path,index)
             
