@@ -33,8 +33,8 @@ def goto_category_page(key,url):
                     sb.switch_to_frame('iframe[title*="challenge"]')
                     sb.click("span.mark")  
                 else:
-                    time.sleep(1)
                     goto_category_page(url)
+                time.sleep(2)
                 page_num=get_page_num(sb,key)
             else:
                 page_num=get_page_num(sb,key)

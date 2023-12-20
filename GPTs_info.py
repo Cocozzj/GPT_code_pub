@@ -1,10 +1,10 @@
 from utils.function_utils import *
 from utils.path_utils import *
 
+GPT_INDEX_CSV= os.path.join(DATA_DIR, "allGPTs_index.csv")
 
 if __name__ == "__main__":
-    GPT_info_csv=os.path.join(DATA_DIR, 'allGPTs_index.csv')
-    df = pd.read_csv (GPT_info_csv)
+    df = pd.read_csv (GPT_INDEX_CSV)
     sys_argv_length=len(sys.argv)
     if sys_argv_length==2:
         df = df.iloc[int(sys.argv[1]):]
