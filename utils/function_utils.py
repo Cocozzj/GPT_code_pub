@@ -39,10 +39,11 @@ def get_gpt_info(sb,url,save_path,index):
         if "GPTStore" in title:
             with open(save_path, mode='w', encoding='utf-8') as html_file:
                 html_file.write(source_code)
+            print(index)
             if sb.is_element_visible('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button'):
                 sb.click('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button')
-                time.sleep(1)
-            print(index)
+                print("update")
+            
         else: 
             passCloudFlare(url,save_path,index)
             
