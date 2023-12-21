@@ -20,7 +20,6 @@ def checkCloudFlare(sb,url,save_path,index,updatebutton):
             sb.switch_to_frame('iframe[title*="challenge"]')
             sb.click("span.mark")
         # else:
-        #     print("ZZZZZZZ")
         #     sb.driver.quit()
         #     passCloudFlare(url,save_path,index) 
     get_gpt_info(sb,url,save_path,index,updatebutton)
@@ -40,10 +39,7 @@ def get_gpt_info(sb,url,save_path,index,updatebutton):
         if "GPTStore" in title:
             with open(save_path, mode='w', encoding='utf-8') as html_file:
                 html_file.write(source_code)
-                print(index)
-            #print(sb.is_attribute_present('#__next > main > div.space-y-3 > div.flex.justify-center.gap-x-6 > button','disabled'))
-            # if sb.is_element_visible('#__next > main > div.space-y-3 > div.flex.justify-center.gap-x-6 > button'):
-            #     break
+               # print(index)
             if updatebutton:           
                 if sb.is_element_visible('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button'):
                     sb.click('#__next > main > div.mt-4.space-y-4 > div > div.mt-6 > dl > div.flex.items-center.border-t.border-gray-100.py-6.dark\:border-gray-900.sm\:col-span-1 > dd > button')

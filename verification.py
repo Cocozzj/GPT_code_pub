@@ -21,12 +21,12 @@ def checkFormat():
     for i in os.listdir(GPTS_INFO_DIR):
         bs = BeautifulSoup(open(os.path.join(GPTS_INFO_DIR, i),encoding='utf-8'),features='html.parser') 
         title = bs.title
-    if title is None:
-        list.append(int(i.split("_")[0]))
-    elif "GPTStore" in title.get_text():
-        pass
-    else:
-        list.append(int(i.split("_")[0]))
+        if title is None:
+            list.append(int(i.split("_")[0]))
+        elif "GPTStore" in title.get_text():
+            pass
+        else:
+            list.append(int(i.split("_")[0]))
     list.sort()
     return list
 
