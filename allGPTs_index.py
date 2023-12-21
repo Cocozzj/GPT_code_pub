@@ -2,9 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from utils.path_utils import *
 from utils.function_utils import *
-
-gpt_num_url='//div[@id="__next"]/main/div[1]/div/p'
-category_url='//div[@id="__next"]/main/div[2]/div[1]/div/div'
+import json
 
 element=["gpts","creators","plugins"]
 
@@ -16,40 +14,49 @@ options.add_experimental_option('useAutomationExtension', False)
 options.add_argument('--save-page-as-mhtml')
 options.add_argument('--disable-blink-features=AutomationControlled')
 driver = webdriver.Chrome(options=options)
-driver = webdriver.Chrome()
 
 ####################### Get GPTs Category List #########################
 driver.get(GPTs_url)
-category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
-category_button.click()
-category_list1=[]
-category_list2=[]
-category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
-for i in category_default:
-    category_list1.append([i.text,i.get_attribute('href')])
-category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
-for i in category_extend:
-    category_list2.append([i.text,i.get_attribute('href')])
-category_list=category_list1+category_list2
 
-print(category_list)
+json_html=driver.find_element(By.XPATH,'//*[@id="__NEXT_DATA__"]').get_attribute("innerHTML")
+json_html = json.loads(json_html)
 
-gpt_info=pd.DataFrame(category_list,columns =['name', 'url'])
+gpts=json_html["props"]["pageProps"]
+
+category_list=[]
+gptCategoryList=gpts["gptCategoryList"]
+for index in gptCategoryList:
+    print(index)
+    category_list.append([index["id"],index["category"],GPTs_url+"/categories/"+str.lower(index["category"].replace(" ","-"))])
+
+# # category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
+# # category_button.click()
+# # category_list1=[]
+# # category_list2=[]
+# # category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
+# # for i in category_default:
+# #     category_list1.append([i.text,i.get_attribute('href')])
+# # category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
+# # for i in category_extend:
+# #     category_list2.append([i.text,i.get_attribute('href')])
+# # category_list=category_list1+category_list2
+
+# # print(category_list)
+
+gpt_info=pd.DataFrame(category_list,columns =['id','name','url'])
 
 data2csv(gpt_info,os.path.join(DATA_DIR, 'category_index.csv')) 
 
 
-####################### Get Total Num of GPTs #########################
+# # ####################### Get Total Num of GPTs #########################
 
-gpts_num_str=driver.find_elements(By.XPATH,gpt_num_url)
-gpts_num_str=gpts_num_str[0].text
-gpts_num=int(gpts_num_str.split(" ")[3])
-page_num = math.ceil(gpts_num/GPTS_NUM_PERPAGE)
+gpts_num=gpts["count"]
+page_num=gpts["total"]
 
 print("Total # GPTs: "+ str(gpts_num))
 print("Total # GPTs page: "+str(page_num))
 
-# ####################### Get All GPTs info#########################
+# # # ####################### Get All GPTs info#########################
 
 gpt_index=[]
 for page_id in range(1, page_num+1):
@@ -60,9 +67,10 @@ for page_id in range(1, page_num+1):
     with open(save_path, mode='w', encoding='utf-8') as html_file:
         html_file.write(source_code)
 
-####################### summary All GPTs name+url#########################
+# ####################### summary All GPTs name+url#########################
 
 file_num= len(os.listdir(GPTS_INDEX_DIR))
+# print(file_num)
 gpt_info=[]
 
 for num in range(1,file_num+1):
@@ -72,8 +80,9 @@ for num in range(1,file_num+1):
     for list in bs.find_all("li"):
         gpt_name=list.a.get_text()
         gpt_url=list.a.get("href")
-        gpt_info.append([gpt_name,gpt_url])
+        gpt_id=gpt_url[5:]
+        gpt_info.append([gpt_name,gpt_id,GPTs_url+gpt_id])
 
-gpt_info=pd.DataFrame(gpt_info,columns =['name', 'url'])
+gpt_info=pd.DataFrame(gpt_info,columns =['name', 'id','url'])
 
 data2csv(gpt_info,os.path.join(DATA_DIR, 'allGPTs_index.csv')) 

@@ -9,15 +9,15 @@ if __name__ == "__main__":
     if sys_argv_length==2:
         df = df.iloc[int(sys.argv[1]):]
         for row in df.itertuples(name=None):
-            save_path=os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2].split("/")[-1] + ".html")
-            passCloudFlare(GPTSTORE_URL+row[2],save_path,row[0])
+            save_path=os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2] + ".html")
+            passCloudFlare(row[3],save_path,row[0])
     elif sys_argv_length==3:
         if sys.argv[1]==sys.argv[2]:
             df = df.iloc[sys.argv[1]:sys.argv[1]+1,:]
         else:
             df = df.iloc[int(sys.argv[1]):int(sys.argv[2])]
             for row in df.itertuples(name=None):
-                save_path=os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2].split("/")[-1] + ".html")
-                passCloudFlare(GPTSTORE_URL+row[2],save_path,row[0])
+                save_path=os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2] + ".html")
+                passCloudFlare(row[3],save_path,row[0])
     else: 
         print("Please input <= 2 numbers")

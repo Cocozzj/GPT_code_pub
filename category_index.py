@@ -1,13 +1,16 @@
 from utils.function_utils import *
 from utils.path_utils import *
 
-def get_page_num(sb,key):
+def get_page_num(bs,key):
     print("############## "+key+" ##############")
-    gpts_num_str=sb.get_text("#__next main div div p")
-    gpt_num=int(gpts_num_str.split(" ")[3])
-    page_num=math.ceil(gpt_num/GPTS_NUM_PERPAGE)
-    print("# GPTs: "+ str(gpt_num))
+    json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
+    json_html = json.loads(json_html)
+    gpts=json_html["props"]["pageProps"]
+    gpts_num=int(gpts["count"])
+    page_num=int(gpts["total"])
+    print("# GPTs: "+ str(gpts_num))
     print("# GPTs page: "+str(page_num))
+
     return page_num  
             
 
@@ -16,7 +19,7 @@ def get_category_page(page_num,key,url):
     notExist_create(category_path)
     for page_id in range(1, page_num+1):
         save_path= os.path.join(category_path,str(page_id) + ".html")
-        passCloudFlare(url+"?page="+str(page_id),save_path,page_id)
+        passCloudFlare(url+"?page="+str(page_id),save_path,page_id,False)
 
 
 def goto_category_page(key,url):
@@ -32,32 +35,32 @@ def goto_category_page(key,url):
                 elif sb.is_element_visible('iframe[title*="challenge"]'):
                     sb.switch_to_frame('iframe[title*="challenge"]')
                     sb.click("span.mark")  
-                else:
-                    goto_category_page(url)
-                time.sleep(2)
-                page_num=get_page_num(sb,key)
-            else:
-                page_num=get_page_num(sb,key)
+                # else:
+                #     goto_category_page(url)
+            time.sleep(1)
+            
+            page_num=get_page_num(bs,key)
                 
-        except exceptions.NoSuchElementException:
-            goto_category_page(key,url)
-        except exceptions.NoSuchFrameException:
-            goto_category_page(key,url)
-        except exceptions.NoSuchWindowException:
-            goto_category_page(key,url)
+        # except exceptions.NoSuchElementException:
+        #     goto_category_page(key,url)
+        # except exceptions.NoSuchFrameException:
+        #     goto_category_page(key,url)
+        # except exceptions.NoSuchWindowException:
+        #     goto_category_page(key,url)
         except Exception:
+            sb.driver.quit()
             goto_category_page(key,url)
 
     return page_num
 
 ####################### Get GPTs index in category#########################
-        
+
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-
+category_list=category_list.iloc[18:]
 for row in category_list.itertuples():
-    key=row[1]
-    url=row[2]
+    key=row[2]
+    url=row[3]
     page_num=goto_category_page(key,url)
     get_category_page(page_num,key,url)
     
