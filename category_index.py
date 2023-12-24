@@ -57,7 +57,7 @@ def goto_category_page(key,url):
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-category_list=category_list.iloc[18:]
+category_list=category_list.iloc[46:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]

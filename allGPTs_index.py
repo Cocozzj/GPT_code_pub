@@ -29,19 +29,19 @@ for index in gptCategoryList:
     print(index)
     category_list.append([index["id"],index["category"],GPTs_url+"/categories/"+str.lower(index["category"].replace(" ","-"))])
 
-# # category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
-# # category_button.click()
-# # category_list1=[]
-# # category_list2=[]
-# # category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
-# # for i in category_default:
-# #     category_list1.append([i.text,i.get_attribute('href')])
-# # category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
-# # for i in category_extend:
-# #     category_list2.append([i.text,i.get_attribute('href')])
-# # category_list=category_list1+category_list2
+# category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
+# category_button.click()
+# category_list1=[]
+# category_list2=[]
+# category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
+# for i in category_default:
+#     category_list1.append([i.text,i.get_attribute('href')])
+# category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
+# for i in category_extend:
+#     category_list2.append([i.text,i.get_attribute('href')])
+# category_list=category_list1+category_list2
 
-# # print(category_list)
+# print(category_list)
 
 gpt_info=pd.DataFrame(category_list,columns =['id','name','url'])
 
@@ -80,8 +80,8 @@ for num in range(1,file_num+1):
     for list in bs.find_all("li"):
         gpt_name=list.a.get_text()
         gpt_url=list.a.get("href")
-        gpt_id=gpt_url[5:]
-        gpt_info.append([gpt_name,gpt_id,GPTs_url+gpt_id])
+        gpt_id=gpt_url[6:]
+        gpt_info.append([gpt_name,gpt_id,GPTs_url+"/"+gpt_id])
 
 gpt_info=pd.DataFrame(gpt_info,columns =['name', 'id','url'])
 

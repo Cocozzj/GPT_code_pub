@@ -47,6 +47,9 @@ def get_gpt_info(sb,url,save_path,index,updatebutton):
                     time.sleep(1)
             else:
                 print(index)
+        elif "gptstore.ai" == title:
+            with open(save_path, mode='w', encoding='utf-8') as html_file:
+                html_file.write("No page found")
         else: 
             sb.driver.quit()
             passCloudFlare(url,save_path,index,updatebutton)
