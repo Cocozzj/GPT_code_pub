@@ -2,7 +2,6 @@ Web_data/Category_index/
 Web_data/GPTs_index/
 Web_data/GPTs_info/
 downloaded_files/
-utils/__pycache__/function_utils.cpython-38.pyc
-utils/__pycache__/path_utils.cpython-38.pyc
+utils/__pycache__/
 
 
