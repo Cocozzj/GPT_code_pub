@@ -42,4 +42,4 @@ cd ./GPT_code_pub
 
 ### under GPT_code_pub folder
 
-scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/data_collection/GPTs_info/
+scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/Web_data/GPTs_info/
