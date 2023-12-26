@@ -1,8 +1,16 @@
-from utils.function_utils import *
 from utils.path_utils import *
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+import json
+from bs4 import BeautifulSoup 
 
-def get_page_num(bs,key):
+def get_page_num(key,url):
     print("############## "+key+" ##############")
+    driver.get(url)
+    source_code=driver.page_source
+    bs = BeautifulSoup(source_code,"html.parser")
     json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
     json_html = json.loads(json_html)
     gpts=json_html["props"]["pageProps"]
@@ -13,55 +21,51 @@ def get_page_num(bs,key):
 
     return page_num  
             
-
 def get_category_page(page_num,key,url):
     category_path=os.path.join(CATEGORY_INDEX_DIR, key)
     notExist_create(category_path)
-    for page_id in range(1, page_num+1):
+    for page_id in range(105, page_num+1):
         save_path= os.path.join(category_path,str(page_id) + ".html")
-        passCloudFlare(url+"?page="+str(page_id),save_path,page_id,False)
+        getGPTs_info(url+"?page="+str(page_id),save_path,page_id)
 
+def getGPTs_info(url,save_path,page_id):
+    driver.get(url)
+    source_code=driver.page_source
+    bs = BeautifulSoup(source_code,"html.parser")
+    title=bs.title
+    if title is None:
+        with open(save_path, mode='w', encoding='utf-8') as html_file:
+            html_file.write("No page found")  
+    else:
+        title=title.get_text()
+        if "GPTStore" in title:
+            with open(save_path, mode='w', encoding='utf-8') as html_file:
+                html_file.write(source_code)
+                time.sleep(1)
+        elif "gptstore.ai" == title:
+            with open(save_path, mode='w', encoding='utf-8') as html_file:
+                html_file.write("No page found")
+        else: 
+            driver.refresh()
+    print(page_id)
+ 
 
-def goto_category_page(key,url):
-    with SB(uc_cdp=True, guest_mode=True) as sb:
-        sb.open(url)
-        try:
-            source_code = sb.get_page_source()
-            bs = BeautifulSoup(source_code,"html.parser")  
-            title=bs.title.get_text()
-            if "Just a moment" in title:
-                if sb.is_element_visible('input[value*="Verify"]'):
-                    sb.click('input[value*="Verify"]')
-                elif sb.is_element_visible('iframe[title*="challenge"]'):
-                    sb.switch_to_frame('iframe[title*="challenge"]')
-                    sb.click("span.mark")  
-                # else:
-                #     goto_category_page(url)
-            time.sleep(1)
-            
-            page_num=get_page_num(bs,key)
-                
-        # except exceptions.NoSuchElementException:
-        #     goto_category_page(key,url)
-        # except exceptions.NoSuchFrameException:
-        #     goto_category_page(key,url)
-        # except exceptions.NoSuchWindowException:
-        #     goto_category_page(key,url)
-        except Exception:
-            sb.driver.quit()
-            goto_category_page(key,url)
-
-    return page_num
 
 ####################### Get GPTs index in category#########################
+retValue = os.system("C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\ChromeProfile'")
+
+chrome_options = Options()
+chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
+driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-category_list=category_list.iloc[46:]
+category_list=category_list.iloc[2:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]
-    page_num=goto_category_page(key,url)
+    
+    page_num=get_page_num(key,url)
     get_category_page(page_num,key,url)
     
     
