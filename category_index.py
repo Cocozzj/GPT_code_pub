@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 def get_page_num(key,url):
     print("############## "+key+" ##############")
     driver.get(url)
+    time.sleep(1)
     source_code=driver.page_source
     bs = BeautifulSoup(source_code,"html.parser")
     json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
@@ -24,12 +25,13 @@ def get_page_num(key,url):
 def get_category_page(page_num,key,url):
     category_path=os.path.join(CATEGORY_INDEX_DIR, key)
     notExist_create(category_path)
-    for page_id in range(105, page_num+1):
+    for page_id in range(1, page_num+1):
         save_path= os.path.join(category_path,str(page_id) + ".html")
         getGPTs_info(url+"?page="+str(page_id),save_path,page_id)
 
 def getGPTs_info(url,save_path,page_id):
     driver.get(url)
+    time.sleep(1)
     source_code=driver.page_source
     bs = BeautifulSoup(source_code,"html.parser")
     title=bs.title
@@ -52,15 +54,13 @@ def getGPTs_info(url,save_path,page_id):
 
 
 ####################### Get GPTs index in category#########################
-retValue = os.system("C:\Program Files\Google\Chrome\Application\chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\ChromeProfile'")
-
 chrome_options = Options()
 chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
 driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-# category_list=category_list.iloc[2:]
+# category_list=category_list.iloc[3:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]
