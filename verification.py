@@ -1,5 +1,8 @@
-from utils.function_utils import *
 from utils.path_utils import *
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup 
 
 GPT_INDEX_CSV= os.path.join(DATA_DIR, "allGPTs_index.csv")
 
@@ -30,6 +33,18 @@ def checkFormat():
     list.sort()
     return list
 
+def get_gpt_info(url,save_path,index):
+    driver.get(url)
+    source_code=driver.page_source
+    with open(save_path, mode='w', encoding='utf-8') as html_file:
+        html_file.write(source_code)  
+    updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
+    if (updateRequest.get_attribute("innerHTML")=="Request update"):
+        updateRequest.click()
+        print(index)
+    else:
+        print("Can not update request")
+
 def reloadPage(list):
     if len(list)!=0:
         for tmp in list:
@@ -37,10 +52,14 @@ def reloadPage(list):
             df1 = df.iloc[tmp:tmp+1,:]
             for row in df1.itertuples(name=None):
                 save_path=os.path.join(GPTS_INFO_DIR, str(row[0])+"_"+row[2].split("/")[-1] + ".html")
-                passCloudFlare(GPTSTORE_URL+row[2],save_path,row[0])
+                get_gpt_info(GPTSTORE_URL+row[2],save_path,row[0])
 
 
 if __name__ == "__main__":
+    chrome_options = Options()
+    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
+    driver = webdriver.Chrome(options=chrome_options)
+
     gpts_info_range=[1,10000]
 
     df = pd.read_csv(GPT_INDEX_CSV)
