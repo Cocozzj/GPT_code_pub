@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 def get_page_num(key,url):
     print("############## "+key+" ##############")
     driver.get(url)
-    time.sleep(1)
+    time.sleep(3)
     source_code=driver.page_source
     bs = BeautifulSoup(source_code,"html.parser")
     json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
@@ -60,7 +60,7 @@ driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-# category_list=category_list.iloc[3:]
+# category_list=category_list.iloc[1:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]

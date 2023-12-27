@@ -3,20 +3,23 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup 
-
+import time
 GPT_INDEX_CSV= os.path.join(DATA_DIR, "allGPTs_index.csv")
 
 def get_gpt_info(url,save_path,index):
     driver.get(url)
+    time.sleep(1)
     source_code=driver.page_source
     with open(save_path, mode='w', encoding='utf-8') as html_file:
-        html_file.write(source_code)  
-    updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
-    if (updateRequest.get_attribute("innerHTML")=="Request update"):
-        updateRequest.click()
-        print(index)
-    else:
-        print("Can not update request")
+        html_file.write(source_code) 
+ 
+    if "GPTStore" in driver.title:
+        updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
+        if (updateRequest.is_enabled()):
+            updateRequest.click()
+            print(index)
+        else:
+            print("Can not update request")
 
 
 if __name__ == "__main__":
