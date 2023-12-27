@@ -3,7 +3,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup 
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 import time
+
+
 GPT_INDEX_CSV= os.path.join(DATA_DIR, "allGPTs_index.csv")
 
 def get_gpt_info(url,save_path,index):
@@ -11,22 +15,24 @@ def get_gpt_info(url,save_path,index):
     time.sleep(1)
     source_code=driver.page_source
     with open(save_path, mode='w', encoding='utf-8') as html_file:
-        html_file.write(source_code) 
- 
+        html_file.write(source_code)  
     if "GPTStore" in driver.title:
         updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
         if (updateRequest.is_enabled()):
             updateRequest.click()
             print(index)
         else:
-            print("Can not update request")
+            print(str(index)+":Can not update request")
+    else:
+        print(str(index)+":No page found")
 
 
 if __name__ == "__main__":
-   
-    chrome_options = Options()
+
+    chrome_options = webdriver.ChromeOptions()
+
     chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=chrome_options)
 
     df = pd.read_csv (GPT_INDEX_CSV)
     sys_argv_length=len(sys.argv)

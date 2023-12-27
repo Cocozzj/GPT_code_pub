@@ -31,7 +31,7 @@ pip install seleniumbase
 pip install selenium 
 pip install pandas
 pip install bs4
-
+pip install webdriver_manager
 
 cd Documents
 git clone https://github.com/Cocozzj/GPT_code_pub.git

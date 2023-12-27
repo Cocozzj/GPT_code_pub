@@ -6,19 +6,22 @@ import time
 import json
 from bs4 import BeautifulSoup 
 
-def get_page_num(key,url):
-    print("############## "+key+" ##############")
+def get_page_num(key,url,index):
+    print("############## "+str(index)+" : "+key+" ##############")
     driver.get(url)
     time.sleep(3)
     source_code=driver.page_source
     bs = BeautifulSoup(source_code,"html.parser")
-    json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
-    json_html = json.loads(json_html)
-    gpts=json_html["props"]["pageProps"]
-    gpts_num=int(gpts["count"])
-    page_num=int(gpts["total"])
-    print("# GPTs: "+ str(gpts_num))
-    print("# GPTs page: "+str(page_num))
+    if len(bs.find_all(id='__NEXT_DATA__'))<1:
+        get_page_num(key,url)
+    else:
+        json_html=bs.find_all(id='__NEXT_DATA__')[0].get_text()
+        json_html = json.loads(json_html)
+        gpts=json_html["props"]["pageProps"]
+        gpts_num=int(gpts["count"])
+        page_num=int(gpts["total"])
+        print("# GPTs: "+ str(gpts_num))
+        print("# GPTs page: "+str(page_num))
 
     return page_num  
             
@@ -60,12 +63,12 @@ driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-# category_list=category_list.iloc[1:]
+category_list=category_list.iloc[9:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]
     
-    page_num=get_page_num(key,url)
+    page_num=get_page_num(key,url,row[0])
     get_category_page(page_num,key,url)
     
     
