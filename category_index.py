@@ -63,12 +63,8 @@ def getGPTs_info(url,save_path,page_id):
     time.sleep(1)
     source_code=driver.page_source
     if "Just a moment" in driver.title:
-        try:
-            passcloudflare(driver,url,save_path,page_id)
-        except Exception:
-            raise("Detect")
-    
-        getGPTs_info(url,save_path,page_id)
+        print(str(page_id)+"verify cloudflare")
+        sys.exit(0)
     else:
         with open(save_path, mode='w', encoding='utf-8') as html_file:
             html_file.write(source_code)    
@@ -89,7 +85,7 @@ driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-category_list=category_list.iloc[26:]
+category_list=category_list.iloc[0:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]
