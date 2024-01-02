@@ -29,24 +29,9 @@ for index in gptCategoryList:
     print(index)
     category_list.append([index["id"],index["category"],GPTs_url+"/categories/"+str.lower(index["category"].replace(" ","-"))])
 
-# category_button=driver.find_element(By.XPATH,category_url+'/div[1]/button')
-# category_button.click()
-# category_list1=[]
-# category_list2=[]
-# category_default=driver.find_elements(By.XPATH,category_url+'/div[1]/div/a')
-# for i in category_default:
-#     category_list1.append([i.text,i.get_attribute('href')])
-# category_extend=driver.find_elements(By.XPATH,category_url+'/div[2]/a')
-# for i in category_extend:
-#     category_list2.append([i.text,i.get_attribute('href')])
-# category_list=category_list1+category_list2
-
-# print(category_list)
-
 gpt_info=pd.DataFrame(category_list,columns =['id','name','url'])
 
 data2csv(gpt_info,os.path.join(DATA_DIR, 'category_index.csv')) 
-
 
 # # ####################### Get Total Num of GPTs #########################
 

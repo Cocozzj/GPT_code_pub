@@ -31,7 +31,7 @@ pip install seleniumbase
 pip install selenium 
 pip install pandas
 pip install bs4
-
+pip install webdriver_manager
 
 cd Documents
 git clone https://github.com/Cocozzj/GPT_code_pub.git
@@ -43,3 +43,7 @@ cd ./GPT_code_pub
 ### under GPT_code_pub folder
 
 scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/Web_data/GPTs_info/
+
+
+ # cd C:\Program Files\Google\Chrome\Application\
+    # chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\ChromeProfile'"

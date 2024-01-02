@@ -67,9 +67,11 @@ if __name__ == "__main__":
    
     chrome_options = Options()
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9224")
+    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=chrome_options)
     driver.set_window_size(200,800) 
+
+    
 
     df = pd.read_csv (GPT_INDEX_CSV)
     sys_argv_length=len(sys.argv)
