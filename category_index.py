@@ -14,15 +14,8 @@ def get_page_num(key,url,index):
     print("############## "+str(index)+" : "+key+" ##############")
     driver.get(url)
     if "Just a moment" in driver.title:
-        try:
-            # driver=uc.Chrome()
-            WebDriverWait(driver, 30).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH,"//iframe[@title='Widget containing a Cloudflare security challenge']")))
-            WebDriverWait(driver, 30).until(EC.element_to_be_clickable((By.XPATH, "//label[@class='ctp-checkbox-label']"))).click()
-            time.sleep(60)
-        except Exception:
-            raise("Detect")
-        driver.refresh()
-        get_page_num(key,url,index)
+        print(key+" :verify cloudflare")
+        sys.exit(0)
     else:
         source_code=driver.page_source
         bs = BeautifulSoup(source_code,"html.parser")
@@ -45,18 +38,6 @@ def get_category_page(page_num,key,url):
     for page_id in range(1, page_num+1):
         save_path= os.path.join(category_path,str(page_id) + ".html")
         getGPTs_info(url+"?page="+str(page_id),save_path,page_id)
-
-def passcloudflare(driver,url,save_path,index):
-    # ele1= driver.find_element(By.XPATH,'//*[@id="challenge-stage"]')
-    
-    try:
-        WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.XPATH,"//iframe[@title='Widget containing a Cloudflare security challenge']")))
-        WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//label[@class='ctp-checkbox-label']"))).click()
-        time.sleep(60)
-    except Exception:
-        getGPTs_info(url,save_path,index)
-
-
 
 def getGPTs_info(url,save_path,page_id):
     driver.get(url)
@@ -83,14 +64,12 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 driver = webdriver.Chrome(options=chrome_options)
 
-
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
 category_list=category_list.iloc[41:]
 for row in category_list.itertuples():
     key=row[2]
     url=row[3]
-    
     page_num=get_page_num(key,url,row[0])
     get_category_page(page_num,key,url)
     
