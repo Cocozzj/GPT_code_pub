@@ -42,7 +42,7 @@ cd ./GPT_code_pub
 
 ### under GPT_code_pub folder
 
-scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/Web_data/GPTs_info/
+scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/GPTs_info/
 
 # Thinkpad: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir="C:\Users\cocoz\Downloads\selenium\selenium1\ChromeProfile"
 # VMare: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir="C:\Users\Zejun\Downloads\selenium\selenium1\ChromeProfile"
