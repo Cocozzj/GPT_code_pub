@@ -26,7 +26,6 @@ gpts=json_html["props"]["pageProps"]
 category_list=[]
 gptCategoryList=gpts["gptCategoryList"]
 for index in gptCategoryList:
-    print(index)
     category_list.append([index["id"],index["category"],GPTs_url+"/categories/"+str.lower(index["category"].replace(" ","-"))])
 
 gpt_info=pd.DataFrame(category_list,columns =['id','name','url'])

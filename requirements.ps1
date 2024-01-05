@@ -41,7 +41,6 @@ cd ./GPT_code_pub
 ###########upload file########
 
 ### under GPT_code_pub folder
-
 scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/GPTs_info/
 
 # Thinkpad: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir="C:\Users\cocoz\Downloads\selenium\selenium1\ChromeProfile"
