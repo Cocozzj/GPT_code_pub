@@ -45,4 +45,5 @@ scp Web_data/GPTs_info/* gpts@cs-pluto.cs.umn.edu:~/upload_data/GPTs_info/
 
 # Thinkpad: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir="C:\Users\cocoz\Downloads\selenium\selenium1\ChromeProfile"
 # VMare: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir="C:\Users\Zejun\Downloads\selenium\selenium1\ChromeProfile"
-# Lenovo: C:\Program Files\Google\Chrome\Application>chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\selenium1\ChromeProfile'
+# Lenovo(ps): C:\Program Files\Google\Chrome\Application>.\chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\selenium1\ChromeProfile'
+# Anlan(ps) C:\Program Files (x86)\Google\Chrome\Application>.\chrome.exe --remote-debugging-port=9223 --user-data-dir='C:\Downloads\selenium\selenium1\ChromeProfile'
