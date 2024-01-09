@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import undetected_chromedriver as uc
+
 
 def get_page_num(key,url,index):
     print("############## "+str(index)+" : "+key+" ##############")
