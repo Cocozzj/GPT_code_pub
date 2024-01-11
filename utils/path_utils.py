@@ -14,7 +14,7 @@ DATA_DIR=os.path.join(PROJ_DIR, 'Web_data')
 GPTS_INFO_DIR=os.path.join(DATA_DIR, 'GPTs_info')
 GPTS_INDEX_DIR=os.path.join(DATA_DIR, 'GPTs_index')
 CATEGORY_INDEX_DIR=os.path.join(DATA_DIR, 'Category_index')
-
+PAGEVIEW_DIR=os.path.join(DATA_DIR, 'pageView')
 notExist_create(GPTS_INFO_DIR)
 notExist_create(GPTS_INDEX_DIR)
 notExist_create(CATEGORY_INDEX_DIR)

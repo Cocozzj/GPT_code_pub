@@ -46,7 +46,7 @@ def match_GPT(filepath):
             response_list.append(response)
 
     response_list=pd.DataFrame(response_list)
-    data2csv(response_list,'page_view_info.csv') 
+    data2csv(response_list,os.path.join(PAGEVIEW_DIR,'page_view_info.csv')) 
 
 if __name__ == "__main__":
     get_allGPTs()
