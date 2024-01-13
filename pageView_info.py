@@ -30,7 +30,7 @@ def get_allGPTs():
 
     data=pd.DataFrame(data)
     date=time.strftime("%Y-%m-%d", time.localtime()) 
-    data2csv(data,date+'.csv') 
+    data2csv(data,os.path.join(PAGEVIEW_DIR,date+'.csv') )
 
 def match_GPT(filepath):
     GPT_info = pd.read_csv (filepath)
