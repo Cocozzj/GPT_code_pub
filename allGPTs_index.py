@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from utils.path_utils import *
 from utils.function_utils import *
 import json
-
+import time
 element=["gpts","creators","plugins"]
 
 GPTs_url=GPTSTORE_URL+element[0]
@@ -43,13 +43,14 @@ print("Total # GPTs page: "+str(page_num))
 # # # ####################### Get All GPTs info#########################
 
 gpt_index=[]
-for page_id in range(1, page_num+1):
-    print(page_id)
+for page_id in range(1, page_num+2):
     driver.get(GPTs_url+"?page="+str(page_id))
     source_code = driver.page_source
     save_path=os.path.join(GPTS_INDEX_DIR, str(page_id)+ ".html")
     with open(save_path, mode='w', encoding='utf-8') as html_file:
         html_file.write(source_code)
+    print(page_id)
+    
 
 # ####################### summary All GPTs name+url#########################
 
