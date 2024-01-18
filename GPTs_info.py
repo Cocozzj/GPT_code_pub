@@ -36,7 +36,8 @@ def passcloudflare(driver,url,save_path,index):
 def get_gpt_info(url,save_path,index):
     driver.get(url)
     time.sleep(1)
-    source_code=driver.page_source
+    data=driver.find_elements(By.XPATH,'/html/body/pre/text')
+    print(data)
     if "Just a moment" in driver.title:
         print(str(index)+"verify cloudflare")
         sys.exit(0)
@@ -45,7 +46,11 @@ def get_gpt_info(url,save_path,index):
         # except Exception:
         #     raise("Detect")
         # get_gpt_info(url,save_path,index)
+    elif len(driver.find_elements(By.XPATH,'/html/body/pre/text'))>0:
+        get_gpt_info(url,save_path,index)
+        print(str(index)+":Reload")
     else:
+        source_code=driver.page_source
         with open(save_path, mode='w', encoding='utf-8') as html_file:
             html_file.write(source_code) 
     
