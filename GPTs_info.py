@@ -36,8 +36,6 @@ def passcloudflare(driver,url,save_path,index):
 def get_gpt_info(url,save_path,index):
     driver.get(url)
     time.sleep(1)
-    data=driver.find_elements(By.XPATH,'/html/body/pre/text')
-    print(data)
     if "Just a moment" in driver.title:
         print(str(index)+"verify cloudflare")
         sys.exit(0)
@@ -46,7 +44,7 @@ def get_gpt_info(url,save_path,index):
         # except Exception:
         #     raise("Detect")
         # get_gpt_info(url,save_path,index)
-    elif len(driver.find_elements(By.XPATH,'/html/body/pre/text'))>0:
+    elif len(driver.find_elements(By.XPATH,'/html/body/pre'))>0:
         get_gpt_info(url,save_path,index)
         print(str(index)+":Reload")
     else:
@@ -70,7 +68,7 @@ if __name__ == "__main__":
    
     chrome_options = Options()
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9224")
+    chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9223")
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=chrome_options)
     driver.set_window_size(200,800) 
 
