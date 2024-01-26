@@ -35,32 +35,35 @@ def passcloudflare(driver,url,save_path,index):
 
 def get_gpt_info(url,save_path,index):
     driver.get(url)
-    time.sleep(1)
-    if "Just a moment" in driver.title:
-        print(str(index)+"verify cloudflare")
-        sys.exit(0)
-        # try:
-        #     passcloudflare(driver,url,save_path,index)
-        # except Exception:
-        #     raise("Detect")
-        # get_gpt_info(url,save_path,index)
-    elif len(driver.find_elements(By.XPATH,'/html/body/pre'))>0:
-        get_gpt_info(url,save_path,index)
-        print(str(index)+":Reload")
-    else:
-        source_code=driver.page_source
-        with open(save_path, mode='w', encoding='utf-8') as html_file:
-            html_file.write(source_code) 
-    
-        if "GPTStore" in driver.title:
-            updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
-            if (updateRequest.is_enabled()):
-                updateRequest.click()
-                print(index)
-            else:
-                print("Can not update request")
+    try:
+        time.sleep(1)
+        if "Just a moment" in driver.title:
+            print(str(index)+"verify cloudflare")
+            sys.exit(0)
+            # try:
+            #     passcloudflare(driver,url,save_path,index)
+            # except Exception:
+            #     raise("Detect")
+            # get_gpt_info(url,save_path,index)
+        elif len(driver.find_elements(By.XPATH,'/html/body/pre'))>0:
+            get_gpt_info(url,save_path,index)
+            print(str(index)+":Reload")
         else:
-            print(str(index)+":No page found")
+            source_code=driver.page_source
+            with open(save_path, mode='w', encoding='utf-8') as html_file:
+                html_file.write(source_code) 
+        
+            if "GPTStore" in driver.title:
+                updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
+                if (updateRequest.is_enabled()):
+                    updateRequest.click()
+                    print(index)
+                else:
+                    print("Can not update request")
+            else:
+                print(str(index)+":No page found")
+    except Exception:
+        driver.refresh()
     
 
 
