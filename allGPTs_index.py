@@ -66,8 +66,13 @@ for num in range(1,file_num+1):
         gpt_name=list.a.get_text()
         gpt_url=list.a.get("href")
         gpt_id=gpt_url[6:]
+        gpt_count=list.select("div")[-1]
+        
         gpt_info.append([gpt_name,gpt_id,GPTs_url+"/"+gpt_id])
 
+
 gpt_info=pd.DataFrame(gpt_info,columns =['name', 'id','url'])
+
+
 
 data2csv(gpt_info,os.path.join(DATA_DIR, 'allGPTs_index.csv')) 
