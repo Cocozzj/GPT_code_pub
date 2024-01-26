@@ -66,8 +66,18 @@ for num in range(1,file_num+1):
         gpt_name=list.a.get_text()
         gpt_url=list.a.get("href")
         gpt_id=gpt_url[6:]
-        gpt_info.append([gpt_name,gpt_id,GPTs_url+"/"+gpt_id])
+        gpt_count=list.select("div")[-1]
+        if gpt_count.attrs['class']==['text-sm']:
+            num=gpt_count.get_text()
+            if "K" in num:
+                num=float(num.split("K")[0])*1000
+            else:
+                num=float(num[:-1])
+            gpt_info.append([gpt_name,gpt_id,GPTs_url+"/"+gpt_id,num])
 
-gpt_info=pd.DataFrame(gpt_info,columns =['name', 'id','url'])
+
+gpt_info=pd.DataFrame(gpt_info,columns =['name', 'id','url','conversation_count'])
+
+
 
 data2csv(gpt_info,os.path.join(DATA_DIR, 'allGPTs_index.csv')) 
