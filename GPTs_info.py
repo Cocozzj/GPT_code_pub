@@ -64,6 +64,7 @@ def get_gpt_info(url,save_path,index):
                 print(str(index)+":No page found")
     except Exception:
         driver.refresh()
+        get_gpt_info(url,save_path,index)
     
 
 
