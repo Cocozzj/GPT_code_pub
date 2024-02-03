@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+from selenium.webdriver.common.keys import Keys
 
 GPT_INDEX_CSV= os.path.join(DATA_DIR, "allGPTs_index.csv")
 
@@ -63,7 +64,8 @@ def get_gpt_info(url,save_path,index):
             else:
                 print(str(index)+":No page found")
     except Exception:
-        driver.refresh()
+        driver.get('chrome://settings/clearBrowserData')
+        driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
         get_gpt_info(url,save_path,index)
     
 
