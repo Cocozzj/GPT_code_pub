@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup 
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -63,9 +64,11 @@ def get_gpt_info(url,save_path,index):
                     print("Can not update request")
             else:
                 print(str(index)+":No page found")
-    except Exception:
-        driver.get('chrome://settings/clearBrowserData')
-        driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
+    except TimeoutException:
+        print("TimeoutException")
+        driver.refresh()
+        # driver.get('chrome://settings/clearBrowserData')
+        # driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
         get_gpt_info(url,save_path,index)
     
 
