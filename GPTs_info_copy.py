@@ -36,8 +36,8 @@ def passcloudflare(driver,url,save_path,index):
 
 
 def get_gpt_info(url,save_path,index):
-    driver.get(url)
     try:
+        driver.get(url)
         time.sleep(1)
         if "Just a moment" in driver.title:
             print(str(index)+"verify cloudflare")

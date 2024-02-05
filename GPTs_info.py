@@ -36,8 +36,8 @@ def passcloudflare(driver,url,save_path,index):
 
 
 def get_gpt_info(url,save_path,index):
-    driver.get(url)
     try:
+        driver.get(url)
         time.sleep(1)
         if "Just a moment" in driver.title:
             print(str(index)+"verify cloudflare")
@@ -66,7 +66,7 @@ def get_gpt_info(url,save_path,index):
                 print(str(index)+":No page found")
     except TimeoutException:
         print("TimeoutException")
-        driver.refresh()
+        driver.navigate().refresh()
         # driver.get('chrome://settings/clearBrowserData')
         # driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
         get_gpt_info(url,save_path,index)
