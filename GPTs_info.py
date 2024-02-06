@@ -66,7 +66,7 @@ def get_gpt_info(url,save_path,index):
                 print(str(index)+":No page found")
     except TimeoutException:
         print("TimeoutException")
-        driver.navigate().refresh()
+        driver.refresh()
         # driver.get('chrome://settings/clearBrowserData')
         # driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
         get_gpt_info(url,save_path,index)

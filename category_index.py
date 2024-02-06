@@ -66,9 +66,9 @@ driver = webdriver.Chrome(options=chrome_options)
 
 GPT_info_csv=os.path.join(DATA_DIR, 'category_index.csv')
 category_list = pd.read_csv (GPT_info_csv)
-category_list=category_list.iloc[6:]
+category_list=category_list.iloc[34:]
 for row in category_list.itertuples():
-    key=row[2]
+    key=row[2] 
     url=row[3]
     page_num=get_page_num(key,url,row[0])
     get_category_page(page_num,key,url)
