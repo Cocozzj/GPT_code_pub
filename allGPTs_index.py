@@ -43,7 +43,7 @@ print("Total # GPTs page: "+str(page_num))
 # # # ####################### Get All GPTs info#########################
 
 gpt_index=[]
-for page_id in range(4887, page_num+2):
+for page_id in range(4874, page_num+2):
     driver.get(GPTs_url+"?page="+str(page_id))
     source_code = driver.page_source
     save_path=os.path.join(GPTS_INDEX_DIR, str(page_id)+ ".html")
