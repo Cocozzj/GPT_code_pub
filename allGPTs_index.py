@@ -42,9 +42,23 @@ print("Total # GPTs page: "+str(page_num))
 
 # # # ####################### Get All GPTs info#########################
 
+def reload(driver,page_id):
+    
+    if len(driver.find_elements(By.XPATH,'/html/body/pre'))>0:
+        print(str(index)+":Reload")
+        driver.get(GPTs_url+"?page="+str(page_id))
+        flag=True
+    else:
+        flag=False
+    # print(flag)
+    return flag
+
 gpt_index=[]
-for page_id in range(4874, page_num+2):
+for page_id in range(3898, page_num+2):
     driver.get(GPTs_url+"?page="+str(page_id))
+    flag=True
+    while(flag):
+        flag=reload(driver,page_id)
     source_code = driver.page_source
     save_path=os.path.join(GPTS_INDEX_DIR, str(page_id)+ ".html")
     with open(save_path, mode='w', encoding='utf-8') as html_file:
