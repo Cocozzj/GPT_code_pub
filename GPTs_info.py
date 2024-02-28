@@ -36,16 +36,15 @@ def passcloudflare(driver,url,save_path,index):
 
 
 def get_gpt_info(url,save_path,index):
-    
-    try:
-        driver.get(url)
-    except TimeoutException:
-        print("TimeoutException")
-        driver.get('chrome://settings/clearBrowserData')
-        time.sleep(2)
-        clearButton = driver.execute_script("return document.querySelector('settings-ui').shadowRoot.querySelector('settings-main').shadowRoot.querySelector('settings-basic-page').shadowRoot.querySelector('settings-section > settings-privacy-page').shadowRoot.querySelector('settings-clear-browsing-data-dialog').shadowRoot.querySelector('#clearBrowsingDataDialog').querySelector('#clearBrowsingDataConfirm')")
-        clearButton.click()
-
+    # try:
+    #     driver.get(url)
+    # except TimeoutException:
+    #     print("TimeoutException")
+    #     driver.get('chrome://settings/clearBrowserData')
+    #     time.sleep(2)
+    #     clearButton = driver.execute_script("return document.querySelector('settings-ui').shadowRoot.querySelector('settings-main').shadowRoot.querySelector('settings-basic-page').shadowRoot.querySelector('settings-section > settings-privacy-page').shadowRoot.querySelector('settings-clear-browsing-data-dialog').shadowRoot.querySelector('#clearBrowsingDataDialog').querySelector('#clearBrowsingDataConfirm')")
+    #     clearButton.click()
+    driver.get(url)
     time.sleep(1)
     if "Just a moment" in driver.title:
         print(str(index)+"verify cloudflare")
