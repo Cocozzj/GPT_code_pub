@@ -54,7 +54,7 @@ def reload(driver,page_id):
     return flag
 
 gpt_index=[]
-for page_id in range(4644, page_num+2):
+for page_id in range(1, page_num+2):
     driver.get(GPTs_url+"?page="+str(page_id))
     flag=True
     while(flag):
