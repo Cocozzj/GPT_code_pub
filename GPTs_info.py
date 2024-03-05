@@ -63,7 +63,8 @@ def get_gpt_info(url,save_path,index):
             html_file.write(source_code) 
     
         if "GPTStore" in driver.title:
-            updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
+            #updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[4]/dd/button')
+            updateRequest=driver.find_element(By.XPATH,'//*[@id="__next"]/main/div[2]/div[1]/div[1]/div[2]/dl/div[3]/dd/button')
             if (updateRequest.is_enabled()):
                 updateRequest.click()
                 print(index)
