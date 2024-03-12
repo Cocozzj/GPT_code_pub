@@ -77,6 +77,7 @@ for num in range(1,file_num+1):
     html = file.read() 
     bs = BeautifulSoup(html,"html.parser")   
     for list in bs.find_all("li"):
+        if ()
         gpt_name=list.a.get_text()
         gpt_url=list.a.get("href")
         gpt_id=gpt_url[6:]
